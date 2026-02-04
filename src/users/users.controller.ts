@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Query, Delete } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Query, Delete, ParseIntPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -8,9 +8,10 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsersController {
   constructor(private readonly usersService: UsersService) { }
 
-  // /users?limit=123&page=1
+  // /users?limit=123&page=1    -> com pipe 'ParseInt' convertemos o valor string de @Query
   @Get()
-  getAllUsers(@Query('limit') limit: string) {
+  getAllUsers(@Query('limit', ParseIntPipe) limit: number) {
+    //console.log(typeof limit);
     return this.usersService.findAll();
   }
 

@@ -13,7 +13,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // necessario para utilizar Pipes (install class-validator and class-transformer packages is required)
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true, // ignorar propriedades da requisicao que nao fazem parte do DTO (atributos sem decorators)
+  }));
 
   await app.listen(process.env.PORT ?? 3000);
 }
