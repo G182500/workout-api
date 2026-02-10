@@ -83,6 +83,6 @@ A principal diferença entre **Docker** e uma **Máquina Virtual**, é que os co
 * Com o container parado, podemos excluir usando seu nome, através de **docker rm nome-container**
 * Remover uma imagem é possível com **docker rmi nome-imagem**
 
-# 💾 Data Base dentro do Container
+# 💾 Database dentro do Container
 
 Para conectar o BD de um container em um **editor SQL**, como o DBeaver, podemos usar **localhost** e porta do host na conexão, ou IP e porta do container. Para a segunda opção, basta digitar **docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nome-container** e usar o IP retornado
