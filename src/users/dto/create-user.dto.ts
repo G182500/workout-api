@@ -1,17 +1,23 @@
-// DTO -> Data Transfer Object (padrao usado para validar/transformar dados)
-
-import { IsNotEmpty, IsString, MinLength } from "class-validator";
-
-// Um atributo desta classe DTO sem decorator nao valida nada, serve apenas de tipagem
-// os decorators de class-validator que validam e retornam erros para a requisicao
+import { Type } from 'class-transformer';
+import { IsDate, IsNumber, IsString, MaxLength } from 'class-validator';
 
 export class CreateUserDto {
-  @IsString({ message: 'name precisa ser um texto' })
-  @MinLength(5, { message: 'name deve ter no minimo 5 caracteres' })
-  //@IsNotEmpty() unnecessary
-  readonly name: string;
+  @IsString()
+  @MaxLength(255)
+  name: string;
 
   @IsString()
-  @IsNotEmpty()
-  readonly description: string;
+  @MaxLength(255)
+  email: string;
+
+  @IsDate()
+  birthDate: string;
+
+  @IsNumber()
+  @Type(() => Number)
+  height: number;
+
+  @IsNumber()
+  @Type(() => Number)
+  weight: number;
 }

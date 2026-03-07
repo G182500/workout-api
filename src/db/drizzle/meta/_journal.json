@@ -8,6 +8,13 @@
       "when": 1770748239629,
       "tag": "0000_true_shotgun",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1772927347135,
+      "tag": "0001_easy_gravity",
+      "breakpoints": true
     }
   ]
 }
