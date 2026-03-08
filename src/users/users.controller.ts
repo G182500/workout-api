@@ -1,43 +1,62 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Put,
+  Query,
+  Request,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { PaginationDto } from 'src/commom/dto/pagination.dto';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
-@Controller('users') // Todos os endpoints iniciam com "/users"
+@Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  // /users?limit=10&... -> Query('limit', ParseIntPipe) limit: number -> pipe para convertermos para number
-  @Get()
-  findAllUsers(@Query() paginationDto: PaginationDto) {
+  @Get() // /users?limit=10&... -> Query('limit', ParseIntPipe) limit: number -> pipe para convertermos para number
+  findAll(@Query() paginationDto: PaginationDto) {
     return this.usersService.findAll(paginationDto);
   }
 
-  @Get(':id') // /users/123
-  findUser(@Param('id') id: string) {
+  @Get(':id')
+  findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);
   }
 
   @Post()
-  createUser(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.createUser(createUserDto);
+  create(@Body() createUserDto: CreateUserDto, @Request() req: any) {
+    const userId = req.user?.id || 'aaa';
+    return this.usersService.create(createUserDto, userId);
   }
 
-  /*@Put() // Put -> update completo
-  createUser(@Body() body: any): string {
-    return "usuario criado";
+  @Put(':id') // Put -> update completo
+  update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @Request() req: any,
+  ) {
+    const userId = req.user?.id || 'aaa';
+    return this.usersService.update(id, updateUserDto, userId);
   }
 
   @Patch(':id') // Patch -> update parcial
-  updateUser(
+  patch(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
-  ): string {
-    return 'usuario atualizado';
+    @Request() req: any,
+  ) {
+    const userId = req.user?.id || 'aaa';
+    return this.usersService.update(id, updateUserDto, userId);
   }
 
   @Delete(':id')
-  deleteUser(@Param('id') id: string) {
-    return 'usuario deletado';
-  }*/
+  delete(@Param('id') id: string) {
+    return this.usersService.remove(id);
+  }
 }
